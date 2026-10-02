@@ -1,0 +1,158 @@
+newman
+
+Lab05 - Registration API Tests - FAIL
+
+❏ TC01 - Successful Registration
+↳ Setup Student - Active
+  PUT http://localhost:3000/students/B231234567 [200 OK, 178B, 60ms]
+  ✓  Student setup status is 200
+  ✓  Student setup result is OK
+
+↳ Setup Course - CS313
+  PUT http://localhost:3000/courses/CS313 [200 OK, 178B, 1ms]
+  ✓  Course setup status is 200
+  ✓  Course setup result is OK
+
+↳ Create Registration - Success
+  POST http://localhost:3000/registrations [201 Created, 202B, 1ms]
+  1. Registration status is 201
+  ✓  Registration result is OK
+  ✓  registrationID exists and is a number
+
+❏ TC02 - Student Not Found
+↳ Setup Course - CS313
+  PUT http://localhost:3000/courses/CS313 [200 OK, 178B, 2ms]
+  ✓  Course setup status is 200
+  ✓  Course setup result is OK
+
+↳ Create Registration - Student Not Found
+  POST http://localhost:3000/registrations [200 OK, 192B, 1ms]
+  ✓  Student not found status is 200
+  ✓  Student not found returns ERROR_NO_STUDENT
+
+❏ TC03 - Inactive Student
+↳ Setup Student - Inactive
+  PUT http://localhost:3000/students/B231234570 [200 OK, 178B, 1ms]
+  ✓  Inactive student setup status is 200
+  ✓  Inactive student setup result is OK
+
+↳ Setup Course - CS313
+  PUT http://localhost:3000/courses/CS313 [200 OK, 178B, 1ms]
+  ✓  Course setup status is 200
+  ✓  Course setup result is OK
+
+↳ Create Registration - Inactive Student
+  POST http://localhost:3000/registrations [200 OK, 198B, 1ms]
+  ✓  Inactive student status is 200
+  ✓  Inactive student returns ERROR_INACTIVE_STUDENT
+
+❏ TC04 - Course Not Found
+↳ Setup Student - Active
+  PUT http://localhost:3000/students/B231234571 [200 OK, 178B, 1ms]
+  ✓  Student setup status is 200
+  ✓  Student setup result is OK
+
+↳ Create Registration - Course Not Found
+  POST http://localhost:3000/registrations [200 OK, 191B, 2ms]
+  ✓  Course not found status is 200
+  ✓  Course not found returns ERROR_NO_COURSE
+
+❏ TC05 - Missing Prerequisite
+↳ Setup Student - Active
+  PUT http://localhost:3000/students/B231234572 [200 OK, 178B, 1ms]
+  ✓  Student setup status is 200
+  ✓  Student setup result is OK
+
+↳ Setup Course - CS313
+  PUT http://localhost:3000/courses/CS313 [200 OK, 178B, 1ms]
+  ✓  Course setup status is 200
+  ✓  Course setup result is OK
+
+↳ Create Registration - Missing Prerequisite
+  POST http://localhost:3000/registrations [200 OK, 215B, 1ms]
+  ✓  Prerequisite error status is 200
+  ✓  Prerequisite error is returned
+  ✓  Missing prerequisite contains CS201
+
+❏ TC06 - Prerequisites Satisfied
+↳ Setup Student - Active
+  PUT http://localhost:3000/students/B231234573 [200 OK, 178B, 1ms]
+  ✓  Student setup status is 200
+  ✓  Student setup result is OK
+
+↳ Setup Course - CS313
+  PUT http://localhost:3000/courses/CS313 [200 OK, 178B, 1ms]
+  ✓  Course setup status is 200
+  ✓  Course setup result is OK
+
+↳ Create Registration - Prerequisites Satisfied
+  POST http://localhost:3000/registrations [201 Created, 202B, 1ms]
+  ✓  Registration status is 201
+  ✓  Registration result is OK
+  ✓  registrationID exists and is a number
+
+❏ TC07 - Double Error Priority
+↳ Create Registration - Student Priority
+  POST http://localhost:3000/registrations [200 OK, 192B, 1ms]
+  ✓  Double error status is 200
+  ✓  Student error has priority
+
+❏ TC08 - Missing StudentID
+↳ Setup Course - CS313
+  PUT http://localhost:3000/courses/CS313 [200 OK, 178B, 1ms]
+  ✓  Course setup status is 200
+  ✓  Course setup result is OK
+
+↳ Create Registration - Missing StudentID
+  POST http://localhost:3000/registrations [400 Bad Request, 202B, 1ms]
+  ✓  Missing studentID status is 400
+  ✓  Missing studentID returns ERROR_BAD_REQUEST
+
+❏ TC09 - Missing CourseID
+↳ Setup Student - Active
+  PUT http://localhost:3000/students/B231234575 [200 OK, 178B, 1ms]
+  ✓  Student setup status is 200
+  ✓  Student setup result is OK
+
+↳ Create Registration - Missing CourseID
+  POST http://localhost:3000/registrations [400 Bad Request, 202B, 1ms]
+  ✓  Missing courseID status is 400
+  ✓  Missing courseID returns ERROR_BAD_REQUEST
+
+❏ TC10 - Malformed JSON
+↳ Setup Student - Active
+  PUT http://localhost:3000/students/B231234576 [200 OK, 178B, 1ms]
+  ✓  Student setup status is 200
+  ✓  Student setup result is OK
+
+↳ Create Registration - Malformed JSON
+  POST http://localhost:3000/registrations [400 Bad Request, 199B, 1ms]
+  ✓  Malformed JSON status is 400
+  ✓  Malformed JSON returns ERROR_BAD_JSON
+
+┌─────────────────────────┬──────────────────┬─────────────────┐
+│                         │         executed │          failed │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│              iterations │                1 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│                requests │               23 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│            test-scripts │               46 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│      prerequest-scripts │               23 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│              assertions │               49 │               1 │
+├─────────────────────────┴──────────────────┴─────────────────┤
+│ total run duration: 377ms                                    │
+├──────────────────────────────────────────────────────────────┤
+│ total data received: 523B (approx)                           │
+├──────────────────────────────────────────────────────────────┤
+│ average response time: 3ms [min: 1ms, max: 60ms, s.d.: 12ms] │
+└──────────────────────────────────────────────────────────────┘
+
+[31m  # [39m[31m failure        [39m[31m detail                                                                  [39m
+[90m    [39m[90m                [39m[90m                                                                         [39m
+ 1.  AssertionError  Registration status is 201                                              
+                     expected response to have status code 200 but got 201                   
+                     at assertion:0 in test-script                                           
+                     inside "TC01 - Successful Registration / Create Registration - Success" 
